@@ -1,5 +1,5 @@
 
-const BASE_API = 'http://localhost:4000/api'
+const BASE_API = 'https://backendmobile.vercel.app/api'
 
 export default {
     getPrestador: async (id) => {
