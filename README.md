@@ -1,4 +1,4 @@
-### Exemplo de Navegação em React Native
+### Projeto Mobile com Navegação em React Native e UI com Native Paper
 
 ## Índice 
    * [1. Introdução](#1-introdução) 
@@ -51,8 +51,8 @@ expo start
 ```
 
 ### 5. Demo
-Veja um demo da API REST rodando no Heroku
-(https://backicomida.herokuapp.com/)
+Veja um demo da API REST rodando no Vercel
+(https://backendmobile.vercel.app/api)
 
 ## Licença
 [MIT](https://choosealicense.com/licenses/mit/)
