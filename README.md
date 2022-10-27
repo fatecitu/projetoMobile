@@ -59,8 +59,8 @@ Veja um demo da API REST rodando no Vercel
 Veja algumas telas do projeto:
 
 <p align="midle">
-  <img src="/src/splash.jpg" width="300" />
-  <img src="/src/tela-inicial.jpg" width="300" /> 
+  <img src="./src/img/splash.jpg" width="300" />
+  <img src="./src/img/tela-inicial.jpg" width="300" /> 
 </p>
 
 
