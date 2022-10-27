@@ -6,6 +6,7 @@
    * [3. Pacotes Necessários](#3-pacotes-necessários)
    * [4. Inicializando o projeto](#4-inicializando-o-projeto)
    * [5. Demo](#5-demo)
+   * [6. Screens](#6-screens)
 ----
 
 
@@ -19,9 +20,8 @@ Você deve ter algum conhecimento básico em `javascript`, `nodejs` e `ES6`.
 Obrigatoriamente o **nodejs** deve estar instalado no seu sistema. 
 
 ```
-mkdir nomeprojeto
+expo init nomeprojeto
 cd nomeprojeto
-npm init
 ```
 
 ----
@@ -47,12 +47,22 @@ Para iniciar este projeto, utilizaremos o expo.
 
 
 ```
+yarn ou npm i
 expo start
 ```
 
 ### 5. Demo
 Veja um demo da API REST rodando no Vercel
-(https://backendmobile.vercel.app/api)
+(https://backendmobile.vercel.app/api) ou acesse o código fonte: (https://github.com/fatecitu/backendMobile)
+
+### 6. Screens
+Veja algumas telas do projeto:
+
+<p align="midle">
+  <img src="/src/splash.jpg" width="300" />
+  <img src="/src/tela-inicial.jpg" width="300" /> 
+</p>
+
 
 ## Licença
 [MIT](https://choosealicense.com/licenses/mit/)
