@@ -8,9 +8,7 @@ const Stack = createStackNavigator()
 import Inicio from '../screens/Inicio'
 import Configuracoes from '../screens/Configuracoes'
 import ListaPrestadores from '../screens/ListaPrestadores'
-import AdicionaPrestador from '../screens/AdicionaPrestador'
-import AlteraPrestador from '../screens/AlteraPrestador'
-
+import Prestador from '../screens/Prestador'
 
 export default function Navigation(){
     const { tema } = useContext(AppContext)
@@ -20,8 +18,7 @@ export default function Navigation(){
                 <Stack.Screen name="Inicio" component={Inicio} />
                 <Stack.Screen name="Configuracoes" component={Configuracoes} /> 
                 <Stack.Screen name="ListaPrestadores" component={ListaPrestadores}  />
-                <Stack.Screen name="AdicionaPrestador" component={AdicionaPrestador}  /> 
-                <Stack.Screen name="AlteraPrestador" component={AlteraPrestador}  />      
+                <Stack.Screen name="Prestador" component={Prestador}  />      
             </Stack.Navigator>
         </NavigationContainer>
     )

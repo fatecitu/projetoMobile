@@ -2,6 +2,17 @@
 const BASE_API = 'https://backendmobile.vercel.app/api'
 
 export default {
+    getPrestadores: async () => {
+        const req = await fetch(`${BASE_API}/prestadores`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        const json = await req.json()
+        return json
+    },
     getPrestador: async (id) => {
         const req = await fetch(`${BASE_API}/prestadores/${id}`, {
             method: 'GET',
@@ -41,17 +52,6 @@ export default {
     removePrestador: async (idPrestador) => {
         const req = await fetch(`${BASE_API}/prestadores/${idPrestador}`, {
             method: 'DELETE',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        const json = await req.json()
-        return json
-    },
-    getPrestadores: async () => {
-        const req = await fetch(`${BASE_API}/prestadores`, {
-            method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'

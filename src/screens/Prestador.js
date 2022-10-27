@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Platform } from 'react-native'
-import { withTheme, Caption, TextInput, FAB, Checkbox, Snackbar } from 'react-native-paper'
+import { View, Text, StyleSheet, Platform, Alert } from 'react-native'
+import { withTheme, Caption, TextInput, FAB, Snackbar } from 'react-native-paper'
+
 import Header from '../components/Header'
 import Api from '../resources/Api'
 
 function AdicionaPrestador({ navigation, theme, route }) {
+    const hoje = new Date().toISOString().split('T')[0]
     const registroInicial = route.params ? route.params.prestador :
-        {
-            cnpj: '', razao_social: '', nome_fantasia: '',
-            cnae_fiscal: '', data_inicio_atividade: '', localizacao: { type: 'Point', coordinates: [0, 0] }
-        }
+        { cnpj: '', razao_social: '', nome_fantasia: '', cnae_fiscal: '', data_inicio_atividade: hoje, localizacao: { type: 'Point', coordinates: [0, 0] } }
 
     const [prestador, setPrestador] = useState(registroInicial)
     const [aviso, setAviso] = useState('')
@@ -18,14 +17,14 @@ function AdicionaPrestador({ navigation, theme, route }) {
     const { colors } = theme
 
     const salvarPrestador = async (dadosPrestador) => {
+        //Verificamos se iremos incluir ou alterar (se tiver o _id, devemos alterar)
         let salvar = dadosPrestador.hasOwnProperty('_id') ? await Api.alteraPrestador(dadosPrestador) : await Api.incluiPrestador(dadosPrestador)
         setSalvandoDados(true)
         if (salvar.hasOwnProperty('errors')) {
             Platform.OS === 'web' ? alert(`‼️Erro: ${salvar.errors[0].msg}`) : Alert.alert("‼️Erro", salvar.errors[0].msg)
         } else if (salvar.hasOwnProperty('acknowledged')) {
             Platform.OS === 'web' ? alert(`✅Tudo OK: Registro salvo com sucesso `) : Alert.alert("✅Tudo OK", 'Registro salvo com sucesso')
-            //setPrestador(registroInicial)
-            navigation.navigate('Prestadores')
+            navigation.navigate('Inicio')
         }
         setSalvandoDados(false)
     }
@@ -40,7 +39,6 @@ function AdicionaPrestador({ navigation, theme, route }) {
             }}>
                 <Caption style={styles.titulo}>Prestadores de Serviço</Caption>
                 {/* CNPJ */}
-                <Text style={{ color: colors.text }}>CNPJ</Text>
                 <TextInput
                     name="cnpj"
                     style={styles.input}
@@ -51,8 +49,7 @@ function AdicionaPrestador({ navigation, theme, route }) {
                     placeholder='CNPJ (somente números)'
                     maxLength={14}
                 />
-                 {/* Razao Social */}
-                <Text style={{ color: colors.text }}>Razão Social</Text>
+                {/* Razao Social */}
                 <TextInput
                     name="razao_social"
                     style={styles.input}
@@ -62,7 +59,7 @@ function AdicionaPrestador({ navigation, theme, route }) {
                     placeholder='Razão Social'
                     maxLength={100}
                 />
-                 <Text style={{ color: colors.text }}>Nome Fantasia</Text>
+                {/* Fantasia */}
                 <TextInput
                     name="nome_fantasia"
                     style={styles.input}
@@ -72,25 +69,26 @@ function AdicionaPrestador({ navigation, theme, route }) {
                     placeholder='Nome Fantasia (Opcional)'
                     maxLength={50}
                 />
-                  {/* Cnae Fiscal */}
-                  <Text style={{ color: colors.text }}>CNAE Fiscal</Text>
+                {/* Cnae Fiscal */}
                 <TextInput
-                    name="cnpj"
+                    name="cnae_fiscal"
                     style={styles.input}
                     onChangeText={(text) => setPrestador({ ...prestador, cnae_fiscal: text })}
                     value={prestador.cnae_fiscal}
                     keyboardType="number-pad"
-                    autoFocus
                     placeholder='Código Nacional de Atividade Econômica (somente números)'
                     maxLength={7}
                 />
-                <View style={styles.checkbox}>
-                    <Checkbox
-                        status={prestador.status ? 'checked' : 'unchecked'}
-                        onPress={() => setPrestador({ ...prestador, status: status })}
-                    />
-                    <Text style={{ color: colors.text, marginTop: 8 }}>Ativa?</Text>
-                </View>
+                {/* Inicio das Atividades */}
+                <TextInput
+                    name="data_inicio_atividade"
+                    style={styles.input}
+                    onChangeText={(text) => setPrestador({ ...prestador, data_inicio_atividade: text })}
+                    value={prestador.data_inicio_atividade}
+                    keyboardType="number-pad"
+                    placeholder='AAAA-MM-DD'
+                    maxLength={10}
+                />
             </View>
             <FAB style={styles.fab}
                 icon='content-save'
@@ -111,9 +109,6 @@ function AdicionaPrestador({ navigation, theme, route }) {
 }
 
 const styles = StyleSheet.create({
-    checkbox: {
-        flexDirection: 'row'
-    },
     fab: {
         position: 'absolute',
         margin: 16,
@@ -124,8 +119,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 16,
         marginTop: 16
+    },
+    input: {
+        margin: 8
 
-    }
+    },
 })
 
 export default withTheme(AdicionaPrestador)

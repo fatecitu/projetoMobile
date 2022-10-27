@@ -4,19 +4,23 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Alert
+  Alert,
+  Platform
 } from 'react-native'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
-import { BACKEND } from '../constants'
+
 import { formatCnpjCpf } from '../utils'
 
-import { List, withTheme, Avatar } from 'react-native-paper';
+import { List, withTheme, Avatar } from 'react-native-paper'
+import Api from '../resources/Api'
 
 function ListaPrestador({ data, navigation, theme }) {
   const { colors } = theme
 
   async function confirmaExclusaoRegistro() {
-    try {
+    if (Platform.OS === 'web') {
+      if (confirm('Deseja mesmo excluir este prestador?') === true) { await excluirPrestador(data) }
+    } else {
       Alert.alert('Atenção!', 'Deseja mesmo excluir este prestador?', [
         { text: 'Não', style: 'cancel' },
         {
@@ -26,42 +30,32 @@ function ListaPrestador({ data, navigation, theme }) {
           },
         },
       ])
-    } catch (response) {
-      Alert.alert(response.data.error)
     }
   }
 
-  async function excluirPrestador(data) {
-    let url = `${BACKEND}/prestadores/${data._id}`
-    await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(response => response.json())
-      .then(data => {
-        Alert.alert('Aviso', data.message)
-        navigation.goBack()
-      })
-      .catch(function (error) {
-        console.error('Houve um problema ao excluir o prestador: ' + error.message);
-      })
+  const excluirPrestador = async (dadosPrestador) => {
+    let excluir = await Api.removePrestador(dadosPrestador._id)
+    if (excluir.hasOwnProperty('errors')) {
+      Platform.OS === 'web' ? alert(`‼️Erro: ${excluir.errors[0].msg}`) : Alert.alert("‼️Erro", excluir.errors[0].msg)
+    } else if (excluir.hasOwnProperty('acknowledged')) {
+      Platform.OS === 'web' ? alert(`✅Tudo OK: Registro excluído com sucesso `) : Alert.alert("✅Tudo OK", 'Registro excluído com sucesso')
+      navigation.navigate('Inicio')
+    }
   }
 
-  const alteraPrestador = async (data) => {
-    navigation.navigate('AlteraPrestador',{ prestador: data })
+  const alteraPrestador = async (dadosPrestador) => {
+    navigation.navigate('Prestador', { prestador: dadosPrestador })
   }
 
   function botaoLadoDireito() {
     return (
       <View>
         <TouchableOpacity
-          style={styles.buttonDesativar}
+          style={styles.buttonExcluir}
           onPress={confirmaExclusaoRegistro}
         >
-          <Avatar.Icon size={24} icon="delete"  style={{backgroundColor: colors.background}}/>
-          <Text style={{color: colors.background}} >Excluir</Text>
+          <Avatar.Icon size={24} icon="delete" style={{ backgroundColor: colors.background }} />
+          <Text style={{ color: colors.background }} >Excluir</Text>
         </TouchableOpacity>
       </View>
     )
@@ -79,9 +73,10 @@ function ListaPrestador({ data, navigation, theme }) {
             title={data.razao_social}
             description={`CNPJ: ${formatCnpjCpf(data.cnpj)}`}
             descriptionStyle={[styles.descricao]}
-            left={props =>  <Avatar.Text label={data.razao_social.substring(0,2)} />}
+            right={Platform.OS === 'web' ? botaoLadoDireito : ''}
+            left={props => <Avatar.Text label={data.razao_social.substring(0, 2)} />}
           />
-  
+
         </View>
       </TouchableOpacity>
     </Swipeable>
@@ -99,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     marginHorizontal: 8,
   },
-  buttonDesativar: {
+  buttonExcluir: {
     backgroundColor: '#d9534f',
     height: 100,
     width: 100,

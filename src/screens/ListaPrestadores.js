@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, FlatList, RefreshControl } from 'react-native'
-import { Text, withTheme, List, Avatar, FAB, ActivityIndicator } from 'react-native-paper'
+import { Text, withTheme, List, FAB, ActivityIndicator, IconButton } from 'react-native-paper'
 import Header from '../components/Header'
 import ListaPrestador from './ListaPrestador'
 import Api from '../resources/Api'
@@ -16,13 +16,13 @@ function ListaPrestadores({ navigation, theme }) {
     }, [])
 
     const getPrestadores = async () => {
-       
-            setLoading(true)
-            setPrestadores([])
-            let res = await Api.getPrestadores()
-            res.ok === 0 ? Alert.alert("‼️Atenção", `Não foi possível obter a lista de prestadores\nMotivo: ${res.codeName}`) : setPrestadores(res)
-            setLoading(false)
-        
+
+        setLoading(true)
+        setPrestadores([])
+        let res = await Api.getPrestadores()
+        res.ok === 0 ? Alert.alert("‼️Atenção", `Não foi possível obter a lista de prestadores\nMotivo: ${res.codeName}`) : setPrestadores(res)
+        setLoading(false)
+
     }
 
     const onRefresh = React.useCallback(async () => {
@@ -36,14 +36,19 @@ function ListaPrestadores({ navigation, theme }) {
     }, [refreshing])
 
     return (
-        <View style={{backgroundColor: colors.surface}}>
+        <View style={{ backgroundColor: colors.surface, paddingHorizontal: 0, paddingVertical: 16, flex: 1 }}>
             <Header titulo="Prestadores" subtitulo="Relação dos Prestadores de Serviço" voltar={true} navigation={navigation} />
             {loading && <ActivityIndicator animating={true} size="large" color={colors.primary} />}
             <>
                 <List.Subheader>
-                    <Avatar.Icon size={24} icon="refresh" /> Para atualizar os dados
+                    <IconButton
+                        icon="refresh"
+                        size={20}
+                        onPress={() => getPrestadores()}
+                    />
+                    Para atualizar os dados
                 </List.Subheader>
-                
+
                 {prestadores.length === 0 && !loading
                     ? (
                         <View>
@@ -64,8 +69,9 @@ function ListaPrestadores({ navigation, theme }) {
                 <FAB
                     style={styles.fab}
                     icon='plus'
+                    loading={loading}
                     label=''
-                    onPress={() => navigation.navigate('AdicionaPrestador')}
+                    onPress={() => navigation.navigate('Prestador')}
                 />
 
             </>
@@ -74,7 +80,7 @@ function ListaPrestadores({ navigation, theme }) {
 }
 
 const styles = StyleSheet.create({
-    fab:{
+    fab: {
         position: 'absolute',
         margin: 16,
         right: 4,
