@@ -1,4 +1,5 @@
 import { DefaultTheme, DarkTheme } from 'react-native-paper'
+//Para saber mais: https://callstack.github.io/react-native-paper/theming.html
 export const Light = {
     ...DefaultTheme,
     dark: false,
