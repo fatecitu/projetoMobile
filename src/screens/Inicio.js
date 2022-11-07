@@ -9,20 +9,16 @@ function Inicio({ navigation, theme }) {
     const opcoesMenu = [
         { id: 1, nome: 'Prestadores', descricao: 'Prestadores de serviço do Restaurante', icone: 'domain', menu: 'ListaPrestadores' },
         { id: 2, nome: 'Configurações', descricao: 'Configurações do App', icone: 'cog', menu: 'Configuracoes' },
-        { id: 3, nome: 'Usuários', descricao: 'Usuários do Restaurante', icone: 'user', menu: 'ListaPrestadores' },
+        { id: 3, nome: 'Usuários', descricao: 'Usuários do Restaurante', icone: 'account', menu: 'ListaPrestadores' },
     ]
 
-    return ( <
-        >
-        <
-        Header titulo = 'Área Admin'
-        subtitulo = 'iComida' / >
-        <
-        View style = {
+    return ( <>
+        <Header titulo = 'Área Admin'
+        subtitulo = 'iComida' />
+        <View style = {
             { backgroundColor: colors.surface, paddingHorizontal: 8, paddingVertical: 16, flex: 1 } } >
-        <
-        List.Subheader > Selecione uma das opções: < /List.Subheader> <
-        FlatList data = { opcoesMenu }
+        <List.Subheader> Selecione uma das opções: </List.Subheader> 
+        <FlatList data = { opcoesMenu }
         renderItem = {
             ({ item }) => ( <
                 List.Item title = { item.nome }
@@ -43,9 +39,7 @@ function Inicio({ navigation, theme }) {
                 )
             }
             keyExtractor = { item => item.id.toString() }
-            /> <
-            /View> <
-            />
+            /> </View> </>
         )
     }
 
