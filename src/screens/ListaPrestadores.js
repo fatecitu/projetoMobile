@@ -33,6 +33,7 @@ function ListaPrestadores({ navigation, theme }) {
     }, [refreshing])
 
     return ( 
+        <>
     <View style={{backgroundColor: colors.surface, flex: 1}}>
         <Header titulo="Prestadores" subtitulo="Relação de Prestadores" 
                 voltar={true} navigation={navigation}
@@ -69,6 +70,7 @@ function ListaPrestadores({ navigation, theme }) {
             onPress={()=> navigation.navigate('Prestador')}
         />
         </View>
+        </>
     )
 }
 

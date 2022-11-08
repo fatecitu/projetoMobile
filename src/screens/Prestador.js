@@ -31,6 +31,7 @@ function AdicionaPrestador({ navigation, theme, route }) {
    }
 
    return (
+    <>
         <View style={{flex:1, paddingVertical: 0, paddingHorizontal: 0}}>
             <Header titulo="Cadastro de Prestadores" 
                     voltar={true} navigation={navigation} />
@@ -100,6 +101,7 @@ function AdicionaPrestador({ navigation, theme, route }) {
                  onPress={() => salvarPrestador(prestador)}         
              />    
         </View>
+        </>
     )
 }
 
