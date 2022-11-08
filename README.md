@@ -55,6 +55,9 @@ expo start
 Veja um demo da API REST rodando no Vercel
 (https://backendmobile.vercel.app/api) ou acesse o código fonte: (https://github.com/fatecitu/backendMobile)
 
+Para ver o projeto rodando através do Expo GO, aponte a sua câmera para o QR Code abaixo:
+<img src="./src/img/expo-go.svg" title="QR Code do Projeto" />
+
 ### 6. Screens
 Veja algumas telas do projeto:
 
